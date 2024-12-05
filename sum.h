@@ -5,6 +5,7 @@ class sum : public val{
     val sum1;
     val sum2;
     public:
+    virtual ~sum();
     virtual Complex eval();
 };
 #endif

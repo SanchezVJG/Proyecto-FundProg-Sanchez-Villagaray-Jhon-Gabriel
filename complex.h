@@ -6,6 +6,9 @@ struct Complex{
     Real re=0;
     Real im=0;
 };
-
-Complex exp(Complex);
+Complex operator+(Complex&,Complex&);
+Complex operator*(Complex&,Complex&);
+Complex abs(Complex&);
+Complex operator/(Complex&,Complex&);
+Complex exp(Complex&);
 #endif
