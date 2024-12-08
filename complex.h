@@ -6,9 +6,14 @@ struct Complex{
     Real re=0;
     Real im=0;
 };
-Complex operator+(Complex&,Complex&);
-Complex operator*(Complex&,Complex&);
-Complex abs(Complex&);
-Complex operator/(Complex&,Complex&);
-Complex exp(Complex&);
+Complex operator+(Complex,Complex);
+Complex operator*(Complex,Complex);
+Complex operator-(Complex);
+Complex operator-(Complex,Complex);
+Complex abs(Complex);
+Complex inv(Complex);
+Complex operator/(Complex,Complex);
+Complex exp(Complex);
+Complex sin(Complex);
+Complex cos(Complex);
 #endif
