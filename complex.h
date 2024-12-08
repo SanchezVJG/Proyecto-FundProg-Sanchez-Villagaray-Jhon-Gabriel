@@ -1,5 +1,6 @@
 #ifndef __COMPLEX_H__
 #define __COMPLEX_H__
+#include <iostream>
 #include <cmath>
 using Real = float;
 struct Complex{
@@ -16,4 +17,5 @@ Complex operator/(Complex,Complex);
 Complex exp(Complex);
 Complex sin(Complex);
 Complex cos(Complex);
+std::ostream &operator<<(ostream&,Complex&);
 #endif
