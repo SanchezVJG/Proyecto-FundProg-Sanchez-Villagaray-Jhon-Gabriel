@@ -17,5 +17,5 @@ Complex operator/(Complex,Complex);
 Complex exp(Complex);
 Complex sin(Complex);
 Complex cos(Complex);
-std::ostream &operator<<(ostream&,Complex&);
+std::ostream &operator<<(std::ostream &os,Complex &C);
 #endif

@@ -4,7 +4,7 @@ using namespace std;
 
 void display(ostream &os,Complex **grid, size_t size){
     for (size_t i =0; i < size ; i++){
-        os << "\t" << 'A'+i;
+        os << "\t" << char ('A'+i);
     }
     os << endl;
     for (size_t i = 0; i < size ; i++){
