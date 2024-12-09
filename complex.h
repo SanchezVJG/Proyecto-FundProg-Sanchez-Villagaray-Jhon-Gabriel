@@ -7,15 +7,15 @@ struct Complex{
     Real re=0;
     Real im=0;
 };
-Complex operator+(Complex,Complex);
-Complex operator*(Complex,Complex);
-Complex operator-(Complex);
-Complex operator-(Complex,Complex);
-Complex abs(Complex);
-Complex inv(Complex);
-Complex operator/(Complex,Complex);
-Complex exp(Complex);
-Complex sin(Complex);
-Complex cos(Complex);
-std::ostream &operator<<(std::ostream &os,Complex &C);
+Complex operator+(const Complex&,const Complex&);
+Complex operator*(const Complex&,const Complex&);
+Complex operator-(const Complex&);
+Complex operator-(const Complex&,const Complex&);
+Complex abs(const Complex&);
+Complex inv(const Complex&);
+Complex operator/(const Complex&,const Complex&);
+Complex exp(const Complex&);
+Complex sin(const Complex&);
+Complex cos(const Complex&);
+std::ostream &operator<<(std::ostream &os,const Complex &C);
 #endif
