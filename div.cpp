@@ -1,6 +1,8 @@
 #include "div.h"
-Complex div::eval(){
-    Complex a= div1.eval();
-    Complex b= div2.eval();
-    return (a/b);
+frac::~frac(){
+    delete frac1;
+    delete frac2;
+}
+Complex frac::eval(){
+    return (frac1->eval()/frac2->eval());
 }

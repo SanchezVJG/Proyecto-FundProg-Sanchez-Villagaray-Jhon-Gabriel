@@ -4,9 +4,10 @@
 #include "complex.h"
 #include "values.h"
 #include "sum.h"
+#include "res.h"
 #include "mult.h"
 #include "div.h"
 #include "num.h"
-Complex read(const std::string &input);
+val *read(const std::string &input);
 void start();
 #endif

@@ -4,6 +4,7 @@
 class num : public val{
     public:
     Complex num;
+    virtual ~num();
     virtual Complex eval();
 };
 #endif

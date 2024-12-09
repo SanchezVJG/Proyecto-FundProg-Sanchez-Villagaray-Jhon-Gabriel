@@ -1,6 +1,8 @@
 #include "sum.h"
+sum::~sum(){
+    delete sum1;
+    delete sum2;
+}
 Complex sum::eval(){
-    Complex a= sum1.eval();
-    Complex b= sum2.eval();
-    return (a+b);
+    return (sum1->eval()+sum2->eval());
 }

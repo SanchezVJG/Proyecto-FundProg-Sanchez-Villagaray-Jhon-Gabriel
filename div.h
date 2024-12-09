@@ -1,10 +1,11 @@
-#ifndef __DIV_H__
+#ifndef __FRAC_H__
 #define __DIV_H__
 #include "values.h"
-class div : public val{
-    val div1;
-    val div2;
+class frac : public val{
     public:
+    val *frac1;
+    val *frac2;
+    virtual ~frac();
     virtual Complex eval();
 };
 #endif

@@ -1,6 +1,8 @@
 #include "mult.h"
+mult::~mult(){
+    delete mult1;
+    delete mult2;
+}
 Complex mult::eval(){
-    Complex a= mult1.eval();
-    Complex b= mult2.eval();
-    return (a*b);
+    return (mult1->eval()*mult2->eval());
 }
