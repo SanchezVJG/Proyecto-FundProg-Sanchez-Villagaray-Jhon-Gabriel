@@ -2,9 +2,8 @@
 #define __NUM_H__
 #include "values.h"
 class num : public val{
-    Complex num1;
     public:
-    virtual ~num();
+    Complex num;
     virtual Complex eval();
 };
 #endif

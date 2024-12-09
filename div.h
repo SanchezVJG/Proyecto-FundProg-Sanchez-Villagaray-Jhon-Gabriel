@@ -5,7 +5,6 @@ class div : public val{
     val div1;
     val div2;
     public:
-    virtual ~div();
     virtual Complex eval();
 };
 #endif

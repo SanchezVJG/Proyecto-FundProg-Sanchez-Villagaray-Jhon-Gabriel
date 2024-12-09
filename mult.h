@@ -5,7 +5,6 @@ class mult : public val{
     val mult1;
     val mult2;
     public:
-    virtual ~mult();
     virtual Complex eval();
 };
 #endif

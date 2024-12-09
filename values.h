@@ -3,7 +3,6 @@
 #include "complex.h"
 class val{
     public:
-    virtual ~val();
     virtual Complex eval();
 };
 #endif

@@ -1,4 +1,4 @@
 #include "num.h"
 Complex num::eval(){
-    return num1;
+    return num;
 }
