@@ -8,6 +8,6 @@
 #include "mult.h"
 #include "div.h"
 #include "num.h"
-val *read(const std::string &input);
+val *read(const std::string &input ,Complex **grid);
 void start();
 #endif
