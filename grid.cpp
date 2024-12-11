@@ -16,52 +16,73 @@ void display(ostream &os,Complex **grid, size_t size){
     }
     os << endl;
 }
+size_t find_nobrack(const std::string &str,const string &characters){
+    size_t inception=0;
+    for (size_t i = 0; i< str.size() ;i++){
+        if(str.at(i)=='(')
+        inception++;
+        if(str.at(i)==')')
+        inception--;
+        if(characters.find(str.at(i)) != std::string::npos && inception ==0){
+            return i;
+        }
+    }
+    return std::string::npos;
+}
+
 val *read(const std::string &input,Complex **grid){
     size_t found;
-    if (input.find_first_of("+-")!=std::string::npos){
-        found = input.find_first_of("+-");
-        if (input.at(found)=='+'){
-            sum *s=nullptr;
-            s= new sum;
-            s->sum1 = read(input.substr(0,found),grid);
-            s->sum2 = read(input.substr(found+1,std::string::npos),grid);
-            return s;
-        } else {
-            dif *r=nullptr;
-            r= new dif;
-            r->dif1 = read(input.substr(0,found),grid);
-            r->dif2 = read(input.substr(found+1,std::string::npos),grid);
-            return r;
-        }
-    } else {
-        if (input.find_first_of("*/")!=std::string::npos){
-            found = input.find_first_of("*/");
-            if (input.at(found)=='*'){
-                mult *m = nullptr;
-                m= new mult;
-                m->mult1 = read(input.substr(0,found),grid);
-                m->mult2 = read(input.substr(found+1,std::string::npos),grid);
-                return m;
+    string reduced = input;
+    for (;;){
+        found =find_nobrack(reduced,"+-");
+        if (found!=std::string::npos){
+            if (reduced.at(found)=='+'){
+                sum *s=nullptr;
+                s= new sum;
+                s->sum1 = read(reduced.substr(0,found),grid);
+                s->sum2 = read(reduced.substr(found+1,std::string::npos),grid);
+                return s;
             } else {
-                frac *d = nullptr;
-                d= new frac;
-                d->frac1 = read(input.substr(0,found),grid);
-                d->frac2 = read(input.substr(found+1,std::string::npos),grid);
-                return d;
+                dif *r=nullptr;
+                r= new dif;
+                r->dif1 = read(reduced.substr(0,found),grid);
+                r->dif2 = read(reduced.substr(found+1,std::string::npos),grid);
+                return r;
             }
         } else {
-            num *n=nullptr;
-            n= new num;
-            if (input.size()==2 && isalpha(input.at(0))!=0){
-                n->num = grid[input.at(1)-'1'][input.at(0)-'A'];
-            } else {
-                if (input.compare("i") == 0){
-                    n->num = Complex {0,1};
+            found =find_nobrack(reduced,"*/");
+            if (found!=std::string::npos){
+                if (reduced.at(found)=='*'){
+                    mult *m = nullptr;
+                    m= new mult;
+                    m->mult1 = read(reduced.substr(0,found),grid);
+                    m->mult2 = read(reduced.substr(found+1,std::string::npos),grid);
+                    return m;
                 } else {
-                    n->num = Complex {stof(input),0};
+                    frac *d = nullptr;
+                    d= new frac;
+                    d->frac1 = read(reduced.substr(0,found),grid);
+                    d->frac2 = read(reduced.substr(found+1,std::string::npos),grid);
+                    return d;
+                }
+            } else {
+                if (reduced.at(0)=='(' && reduced.at(reduced.size()-1)==')'){
+                    reduced = reduced.substr(1,reduced.size()-2);
+                } else{
+                    num *n=nullptr;
+                    n= new num;
+                    if (reduced.size()==2 && isalpha(reduced.at(0))!=0){
+                        n->num = grid[reduced.at(1)-'1'][reduced.at(0)-'A'];
+                    } else {
+                        if (reduced.at(0)=='i'){
+                            n->num = Complex {0,1};
+                        } else {
+                            n->num = Complex {stof(reduced),0};
+                        }
+                    }
+                    return n;
                 }
             }
-            return n;
         }
     }
 }
@@ -77,7 +98,7 @@ void start(){
     size_t targetC=0;
     size_t targetN=0;
     for (;;){
-        display(cout,grid,n);
+        display(std::cout,grid,n);
         string input;
         cin>>input;
         if (input == "end"){
