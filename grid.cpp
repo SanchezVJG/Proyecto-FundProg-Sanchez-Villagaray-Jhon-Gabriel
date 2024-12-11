@@ -1,16 +1,17 @@
 #include <iostream>
+#include <iomanip>
 #include "grid.h"
 using namespace std;
 
 void display(ostream &os,Complex **grid, size_t size){
     for (size_t i =0; i < size ; i++){
-        os << "\t" << char ('A'+i);
+        os << setw(25) << char ('A'+i);
     }
     os << endl;
     for (size_t i = 0; i < size ; i++){
         os << i+1;
         for (size_t j =0; j < size; j++){
-            os << "\t" << (grid[i][j]);
+            os << setw(25) << (grid[i][j]);
         }
         os << endl;
     }
@@ -39,14 +40,30 @@ val *read(const std::string &input,Complex **grid){
             if (reduced.at(found)=='+'){
                 sum *s=nullptr;
                 s= new sum;
-                s->sum1 = read(reduced.substr(0,found),grid);
-                s->sum2 = read(reduced.substr(found+1,std::string::npos),grid);
+                if (found ==0){
+                    s->sum1 = new num;
+                } else {
+                    s->sum1 = read(reduced.substr(0,found),grid);
+                }
+                if (found == input.size()-1){
+                    s->sum2 = new num;
+                } else {
+                    s->sum2 = read(reduced.substr(found+1,std::string::npos),grid);
+                }
                 return s;
             } else {
                 dif *r=nullptr;
                 r= new dif;
-                r->dif1 = read(reduced.substr(0,found),grid);
-                r->dif2 = read(reduced.substr(found+1,std::string::npos),grid);
+                if (found ==0){
+                    r->dif1= new num;
+                } else {
+                    r->dif1 = read(reduced.substr(0,found),grid);
+                }
+                if (found == input.size()-1){
+                    r->dif2 = new num;
+                } else {
+                    r->dif2 = read(reduced.substr(found+1,std::string::npos),grid);
+                }
                 return r;
             }
         } else {
@@ -81,6 +98,18 @@ val *read(const std::string &input,Complex **grid){
                             co->input = read(reduced.substr(3,string::npos),grid);
                             return co;
                         } else {
+                            if (reduced.substr(0,3)=="abs"){
+                                absolute *ab = nullptr;
+                                ab = new absolute;
+                                ab->input = read(reduced.substr(3,string::npos),grid);
+                                return ab;
+                            }
+                            if (reduced.substr(0,2)=="ln"){
+                                loga *lo = nullptr;
+                                lo = new loga;
+                                lo->input = read(reduced.substr(2,string::npos),grid);
+                                return lo;
+                            }
                             if (reduced.substr(0,2)=="e^"){
                                 expo *ex = nullptr;
                                 ex = new expo;
@@ -129,8 +158,8 @@ void start(){
         targetN=input.at(1)-'1';
         nodes = read(input.substr(input.find("=")+1,std::string::npos),grid);
         grid[targetN][targetC]= nodes->eval();
+        delete nodes;
     }
-    delete nodes;
     for (size_t i = 0 ; i < 10 ; i++){
         delete [] grid[i];
     }

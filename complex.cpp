@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "complex.h"
 using namespace std;
 
@@ -39,12 +40,18 @@ Complex sin(const Complex &C){
 Complex cos(const Complex &C){
     return (exp(Complex {0,1}*C)+exp(Complex {0,-1}*C))/Complex {2,0};
 }
+Complex ln(const Complex &C){
+    return Complex {log(C.re),0};
+}
 
 ostream &operator<<(ostream &os,const Complex &C){
-    os << C.re;
+    ostringstream outtext;
+    outtext<<C.re;
     if (C.im >0)
-    os << "+";
-    if (C.im !=0)
-    os << C.im << "*i";
+    outtext<<"+";
+    if (C.im !=0){
+    outtext<<C.im<<"*i";
+    }
+    os << outtext.str();
     return os;
 }

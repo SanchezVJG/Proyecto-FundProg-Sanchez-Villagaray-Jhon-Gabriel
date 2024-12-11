@@ -22,4 +22,18 @@ class cosine : public val{
     virtual ~cosine();
     virtual Complex eval();
 };
+
+class absolute : public val{
+    public:
+    val *input;
+    virtual ~absolute();
+    virtual Complex eval();
+};
+
+class loga : public val{
+    public:
+    val *input;
+    virtual ~loga();
+    virtual Complex eval();
+};
 #endif

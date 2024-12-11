@@ -22,3 +22,19 @@ cosine::~cosine(){
 Complex cosine::eval(){
     return (cos(input->eval()));
 }
+
+absolute::~absolute(){
+    delete input;
+}
+
+Complex absolute::eval(){
+    return (abs(input->eval()));
+}
+
+loga::~loga(){
+    delete input;
+}
+
+Complex loga::eval(){
+    return (ln(input->eval()));
+}
