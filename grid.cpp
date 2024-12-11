@@ -69,18 +69,39 @@ val *read(const std::string &input,Complex **grid){
                 if (reduced.at(0)=='(' && reduced.at(reduced.size()-1)==')'){
                     reduced = reduced.substr(1,reduced.size()-2);
                 } else{
-                    num *n=nullptr;
-                    n= new num;
-                    if (reduced.size()==2 && isalpha(reduced.at(0))!=0){
-                        n->num = grid[reduced.at(1)-'1'][reduced.at(0)-'A'];
+                    if (reduced.substr(0,3)=="sin"){
+                        sine *si =nullptr;
+                        si = new sine;
+                        si->input = read(reduced.substr(3,string::npos),grid);
+                        return si;
                     } else {
-                        if (reduced.at(0)=='i'){
-                            n->num = Complex {0,1};
+                        if (reduced.substr(0,3)=="cos"){
+                            cosine *co = nullptr;
+                            co = new cosine;
+                            co->input = read(reduced.substr(3,string::npos),grid);
+                            return co;
                         } else {
-                            n->num = Complex {stof(reduced),0};
+                            if (reduced.substr(0,2)=="e^"){
+                                expo *ex = nullptr;
+                                ex = new expo;
+                                ex->input = read(reduced.substr(2,string::npos),grid);
+                                return ex;
+                            } else {
+                                num *n=nullptr;
+                                n= new num;
+                                if (reduced.size()==2 && isalpha(reduced.at(0))!=0){
+                                    n->num = grid[reduced.at(1)-'1'][reduced.at(0)-'A'];
+                                } else {
+                                    if (reduced.at(0)=='i'){
+                                        n->num = Complex {0,1};
+                                    } else {
+                                        n->num = Complex {stof(reduced),0};
+                                    }
+                                }
+                                return n;
+                            }
                         }
                     }
-                    return n;
                 }
             }
         }

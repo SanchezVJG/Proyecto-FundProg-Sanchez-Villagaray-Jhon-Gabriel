@@ -8,8 +8,9 @@
 #include "mult.h"
 #include "div.h"
 #include "num.h"
-void display(ostream &os,Complex **grid, size_t size);
+#include "functions.h"
+void display(std::ostream &os,Complex **grid, size_t size);
 val *read(const std::string &input ,Complex **grid);
-size_t find_nobrack(const std::string &,const string &);
+size_t find_nobrack(const std::string &,const std::string &);
 void start();
 #endif
