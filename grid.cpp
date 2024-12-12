@@ -17,7 +17,7 @@ void display(ostream &os,Complex **grid, size_t size){
     }
     os << endl;
 }
-size_t find_nobrack(const std::string &str,const string &characters){
+size_t find_noParenth(const std::string &str,const string &characters){
     size_t inception=0;
     for (size_t i = 0; i< str.size() ;i++){
         if(str.at(i)=='(')
@@ -31,11 +31,37 @@ size_t find_nobrack(const std::string &str,const string &characters){
     return std::string::npos;
 }
 
+bool correctParenth(const std::string &str){
+    size_t inception=0;
+    for (size_t i=0 ; i<str.size();i++){
+        if (str.at(i)=='(')
+        inception++;
+        if (str.at(i)==')')
+        inception--;
+    }
+    if (inception==0){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void deleteSpaces(std::string &str){
+    size_t i = str.size()-1;
+    while (i >0){
+        i--;
+        if (str.at(i)==' '){
+            str.erase(i,1);
+        }
+    }
+    return;
+}
+
 val *read(const std::string &input,Complex **grid){
     size_t found;
     string reduced = input;
     for (;;){
-        found =find_nobrack(reduced,"+-");
+        found =find_noParenth(reduced,"+-");
         if (found!=std::string::npos){
             if (reduced.at(found)=='+'){
                 sum *s=nullptr;
@@ -67,7 +93,7 @@ val *read(const std::string &input,Complex **grid){
                 return r;
             }
         } else {
-            found =find_nobrack(reduced,"*/");
+            found =find_noParenth(reduced,"*/");
             if (found!=std::string::npos){
                 if (reduced.at(found)=='*'){
                     mult *m = nullptr;
@@ -150,14 +176,19 @@ void start(){
     for (;;){
         display(std::cout,grid,n);
         string input;
-        cin>>input;
-        if (input == "end"){
-            break;
+        getline(cin,input);
+        deleteSpaces(input);
+        if (correctParenth(input)){
+            if (input == "end"){
+                break;
+            }
+            targetC=input.at(0)-'A';
+            targetN=input.at(1)-'1';
+            nodes = read(input.substr(input.find("=")+1,std::string::npos),grid);
+            grid[targetN][targetC]= nodes->eval();
+        } else {
+            cout << "Input error" << endl;
         }
-        targetC=input.at(0)-'A';
-        targetN=input.at(1)-'1';
-        nodes = read(input.substr(input.find("=")+1,std::string::npos),grid);
-        grid[targetN][targetC]= nodes->eval();
         delete nodes;
     }
     for (size_t i = 0 ; i < 10 ; i++){
