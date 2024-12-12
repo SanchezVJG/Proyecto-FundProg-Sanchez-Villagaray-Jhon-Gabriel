@@ -3,15 +3,16 @@
 #include "grid.h"
 using namespace std;
 
-void display(ostream &os,Complex **grid, size_t size){
-    for (size_t i =0; i < size ; i++){
-        os << setw(25) << char ('A'+i);
+void display(ostream &os,Complex **grid, size_t fil, size_t col){
+    os << setw(3) << "num";
+    for (size_t i =0; i < col ; i++){
+        os << setw(20) << char ('A'+i);
     }
     os << endl;
-    for (size_t i = 0; i < size ; i++){
-        os << i+1;
-        for (size_t j =0; j < size; j++){
-            os << setw(25) << (grid[i][j]);
+    for (size_t i = 0; i < fil ; i++){
+        os << setw(3) << i+1;
+        for (size_t j =0; j < col; j++){
+            os << setw(20) << (grid[i][j]);
         }
         os << endl;
     }
@@ -144,8 +145,8 @@ val *read(const std::string &input,Complex **grid){
                             } else {
                                 num *n=nullptr;
                                 n= new num;
-                                if (reduced.size()==2 && isalpha(reduced.at(0))!=0){
-                                    n->num = grid[reduced.at(1)-'1'][reduced.at(0)-'A'];
+                                if (reduced.size()!=1&&isalpha(reduced.at(0))!=0){
+                                    n->num = grid[stoi(input.substr(1))-1][reduced.at(0)-'A'];
                                 } else {
                                     if (reduced.at(0)=='i'){
                                         n->num = Complex {0,1};
@@ -164,17 +165,18 @@ val *read(const std::string &input,Complex **grid){
 }
 
 void start(){
-    const size_t n=9;
+    const size_t fil=10;
+    const size_t col=9;
     Complex **grid;
-    grid = new Complex*[n];
+    grid = new Complex*[fil];
     for (size_t i =0; i <10 ; i++){
-        grid[i] = new Complex[n];
+        grid[i] = new Complex[col];
     }
     val *nodes = nullptr;
     size_t targetC=0;
     size_t targetN=0;
     for (;;){
-        display(std::cout,grid,n);
+        display(std::cout,grid,fil,col);
         string input;
         getline(cin,input);
         deleteSpaces(input);
@@ -183,7 +185,7 @@ void start(){
                 break;
             }
             targetC=input.at(0)-'A';
-            targetN=input.at(1)-'1';
+            targetN=stoi(input.substr(1,input.find("=")-1))-1;
             nodes = read(input.substr(input.find("=")+1,std::string::npos),grid);
             grid[targetN][targetC]= nodes->eval();
         } else {
