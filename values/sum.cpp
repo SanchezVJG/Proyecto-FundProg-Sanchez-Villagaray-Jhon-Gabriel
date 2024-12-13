@@ -1,8 +1,10 @@
 #include "sum.h"
-sum::~sum(){
+sum::~sum()
+{
     delete sum1;
     delete sum2;
 }
-Complex sum::eval(){
-    return (sum1->eval()+sum2->eval());
+Complex sum::eval()
+{
+    return (sum1->eval() + sum2->eval());
 }

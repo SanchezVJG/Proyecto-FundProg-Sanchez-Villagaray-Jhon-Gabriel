@@ -1,40 +1,50 @@
 #include "functions.h"
-expo::~expo(){
+expo::~expo()
+{
     delete input;
 }
 
-Complex expo::eval(){
+Complex expo::eval()
+{
     return (exp(input->eval()));
 }
 
-sine::~sine(){
+sine::~sine()
+{
     delete input;
 }
 
-Complex sine::eval(){
+Complex sine::eval()
+{
     return (sin(input->eval()));
 }
 
-cosine::~cosine(){
+cosine::~cosine()
+{
     delete input;
 }
 
-Complex cosine::eval(){
+Complex cosine::eval()
+{
     return (cos(input->eval()));
 }
 
-absolute::~absolute(){
+absolute::~absolute()
+{
     delete input;
 }
 
-Complex absolute::eval(){
+Complex absolute::eval()
+{
     return (abs(input->eval()));
 }
 
-loga::~loga(){
+loga::~loga()
+{
     delete input;
 }
 
-Complex loga::eval(){
+Complex loga::eval()
+{
     return (ln(input->eval()));
 }

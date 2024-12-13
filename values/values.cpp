@@ -1,7 +1,8 @@
 #include "values.h"
-val::~val(){
-    
+val::~val()
+{
 }
-Complex val::eval(){
-    return Complex {0,0};
+Complex val::eval()
+{
+    return Complex{0, 0};
 }

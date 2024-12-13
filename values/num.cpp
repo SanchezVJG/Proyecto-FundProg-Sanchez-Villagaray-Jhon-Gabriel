@@ -1,6 +1,8 @@
 #include "num.h"
-num::~num(){
+num::~num()
+{
 }
-Complex num::eval(){
+Complex num::eval()
+{
     return num;
 }
