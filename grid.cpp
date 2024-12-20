@@ -73,7 +73,7 @@ void deleteSpaces(std::string &str)
     return;
 }
 
-val *read(const std::string &input, Complex **grid)
+Node *read(const std::string &input, Complex **grid)
 {
     size_t found;
     string reduced = input;
@@ -82,70 +82,42 @@ val *read(const std::string &input, Complex **grid)
         found = find_noParenth(reduced, "+-");
         if (found != std::string::npos)
         {
+            biNode *s=nullptr;
+            s= new biNode(nullptr,nullptr,0);
+            if (found ==0)
+            s->set1(new constNode(Complex{0,0}));
+            else
+            s->set1(read(reduced.substr(0, found), grid));
+            if (found == input.size()-1)
+            s->set2(new constNode(Complex{0,0}));
+            else 
+            s->set2(read(reduced.substr(found + 1, std::string::npos), grid));
             if (reduced.at(found) == '+')
             {
-                sum *s = nullptr;
-                s = new sum;
-                if (found == 0)
-                {
-                    s->sum1 = new num;
-                }
-                else
-                {
-                    s->sum1 = read(reduced.substr(0, found), grid);
-                }
-                if (found == input.size() - 1)
-                {
-                    s->sum2 = new num;
-                }
-                else
-                {
-                    s->sum2 = read(reduced.substr(found + 1, std::string::npos), grid);
-                }
-                return s;
+                s->seti(0);
             }
             else
             {
-                dif *r = nullptr;
-                r = new dif;
-                if (found == 0)
-                {
-                    r->dif1 = new num;
-                }
-                else
-                {
-                    r->dif1 = read(reduced.substr(0, found), grid);
-                }
-                if (found == input.size() - 1)
-                {
-                    r->dif2 = new num;
-                }
-                else
-                {
-                    r->dif2 = read(reduced.substr(found + 1, std::string::npos), grid);
-                }
-                return r;
+                s->seti(1);
             }
+            return s;
         }
         found = find_noParenth(reduced, "*/");
         if (found != std::string::npos)
         {
+            biNode *p = nullptr;
+            p = new biNode(nullptr,nullptr,0);
+            p->set1(read(reduced.substr(0, found), grid));
+            p->set2(read(reduced.substr(found + 1, std::string::npos), grid));
             if (reduced.at(found) == '*')
             {
-                mult *m = nullptr;
-                m = new mult;
-                m->mult1 = read(reduced.substr(0, found), grid);
-                m->mult2 = read(reduced.substr(found + 1, std::string::npos), grid);
-                return m;
+                p->seti(2);
             }
             else
             {
-                frac *d = nullptr;
-                d = new frac;
-                d->frac1 = read(reduced.substr(0, found), grid);
-                d->frac2 = read(reduced.substr(found + 1, std::string::npos), grid);
-                return d;
+                p->seti(3);
             }
+            return p;
         }
         if (reduced.at(0) == '(' && reduced.at(reduced.size() - 1) == ')')
         {
@@ -153,56 +125,41 @@ val *read(const std::string &input, Complex **grid)
         }
         else
         {
+            Node *n = nullptr;
+            n = nullptr;
             if (reduced.substr(0, 3) == "sin")
             {
-                sine *si = nullptr;
-                si = new sine;
-                si->input = read(reduced.substr(3, string::npos), grid);
-                return si;
+                n = new unNode(read(reduced.substr(3, string::npos), grid),1);
             }
             if (reduced.substr(0, 3) == "cos")
             {
-                cosine *co = nullptr;
-                co = new cosine;
-                co->input = read(reduced.substr(3, string::npos), grid);
-                return co;
+                n = new unNode(read(reduced.substr(3, string::npos), grid),2);
             }
             if (reduced.substr(0, 3) == "abs")
             {
-                absolute *ab = nullptr;
-                ab = new absolute;
-                ab->input = read(reduced.substr(3, string::npos), grid);
-                return ab;
+                n = new unNode(read(reduced.substr(3, string::npos), grid),3);
             }
             if (reduced.substr(0, 2) == "ln")
             {
-                loga *lo = nullptr;
-                lo = new loga;
-                lo->input = read(reduced.substr(2, string::npos), grid);
-                return lo;
+                n = new unNode(read(reduced.substr(2, string::npos), grid),4);
             }
             if (reduced.substr(0, 2) == "e^")
             {
-                expo *ex = nullptr;
-                ex = new expo;
-                ex->input = read(reduced.substr(2, string::npos), grid);
-                return ex;
+                n = new unNode(read(reduced.substr(2, string::npos), grid),0);
             }
-            num *n = nullptr;
-            n = new num;
             if (reduced.size() != 1 && isalpha(reduced.at(0)) != 0)
             {
-                n->num = grid[stoi(input.substr(1)) - 1][reduced.at(0) - 'A'];
+                n= new constNode(grid[stoi(input.substr(1)) - 1][reduced.at(0) - 'A']);
             }
             else
             {
                 if (reduced.at(0) == 'i')
                 {
-                    n->num = Complex{0, 1};
+                    n = new constNode(Complex{0,1});
                 }
                 else
                 {
-                    n->num = Complex{stof(reduced), 0};
+                    n = new constNode(Complex{stof(reduced),0});
                 }
             }
             return n;
@@ -220,7 +177,7 @@ void start()
     {
         grid[i] = new Complex[col];
     }
-    val *nodes = nullptr;
+    Node *nodes = nullptr;
     size_t targetC = 0;
     size_t targetN = 0;
     for (;;)
